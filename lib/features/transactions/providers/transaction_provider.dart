@@ -20,7 +20,7 @@ class TransactionProvider extends _$TransactionProvider {
 
   @override
   FutureOr<List<TransactionModel>> build() async {
-    repository = ref.read(transactionRepositoryProvider);
+    repository = ref.watch(transactionRepositoryProvider);
     //decoupling like its DI containers
     //repository = TransactionRepository();
     return repository.fetchTransactions();

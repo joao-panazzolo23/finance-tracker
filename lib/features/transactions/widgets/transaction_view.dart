@@ -1,11 +1,38 @@
-import 'package:flutter/src/widgets/framework.dart';
+import 'package:finance_tracker/features/transactions/providers/transaction_provider.dart';
+import 'package:finance_tracker/features/transactions/widgets/transactional_list.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class TransactionView extends ConsumerWidget{
+import 'add_transaction.modal.dart';
+
+class TransactionView extends ConsumerWidget {
+  const TransactionView({super.key});
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // TODO: implement build
-    final transactions = ref.watch(transa)
+    final transactionState = ref.watch(transactionProviderProvider);
+
+    var appBar = AppBar(title: const Text('Transactions'));
+
+    return Scaffold(
+      appBar: appBar,
+      body: transactionState.when(
+        data: (transactions) => TransactionList(transactions: transactions),
+        loading: () => const Center(child: CircularProgressIndicator()),
+        error: (error, stackTrace) => Center(child: Text('Oops: $error')),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () => onAddPressed(context),
+        child: const Icon(Icons.add),
+      ),
+    );
   }
-  
+
+  void onAddPressed(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      builder: (context) => const AddTransactionModal(),
+    );
+  }
 }
