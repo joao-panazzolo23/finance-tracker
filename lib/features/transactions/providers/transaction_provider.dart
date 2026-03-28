@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:finance_tracker/features/transactions/enums/transaction_type.dart';
 import 'package:finance_tracker/features/transactions/models/transaction_model.dart';
 import 'package:finance_tracker/features/transactions/providers/filtered_transactions_provider.dart';
-import 'package:finance_tracker/features/transactions/providers/transaction_repository_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../repositories/transaction_repository.dart';
@@ -20,9 +19,9 @@ class TransactionProvider extends _$TransactionProvider {
 
   @override
   FutureOr<List<TransactionModel>> build() async {
-    repository = ref.watch(transactionRepositoryProvider);
     //decoupling like its DI containers
     //repository = TransactionRepository();
+    repository = ref.watch(transactionRepositoryProvider.notifier);
     return repository.fetchTransactions();
   }
 

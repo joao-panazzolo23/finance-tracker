@@ -7,7 +7,7 @@ part of 'transaction_provider.dart';
 // **************************************************************************
 
 String _$transactionProviderHash() =>
-    r'f929bf994df5d5b103ce6eb23ced536e47f76107';
+    r'439346a7f400cc64e44c6fc5008cfcd1b712abb3';
 
 ///returning a global instance of TRANSACTION PROVIDER (not the class)
 ///This is comparable to Singleton pattern
@@ -15,21 +15,18 @@ String _$transactionProviderHash() =>
 ///
 /// Copied from [TransactionProvider].
 @ProviderFor(TransactionProvider)
-final transactionProviderProvider =
-    AutoDisposeAsyncNotifierProvider<
-      TransactionProvider,
-      List<TransactionModel>
-    >.internal(
-      TransactionProvider.new,
-      name: r'transactionProviderProvider',
-      debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-          ? null
-          : _$transactionProviderHash,
-      dependencies: null,
-      allTransitiveDependencies: null,
-    );
+final transactionProviderProvider = AutoDisposeAsyncNotifierProvider<
+    TransactionProvider, List<TransactionModel>>.internal(
+  TransactionProvider.new,
+  name: r'transactionProviderProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$transactionProviderHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
 
-typedef _$TransactionProvider =
-    AutoDisposeAsyncNotifier<List<TransactionModel>>;
+typedef _$TransactionProvider
+    = AutoDisposeAsyncNotifier<List<TransactionModel>>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

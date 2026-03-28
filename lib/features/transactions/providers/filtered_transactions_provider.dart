@@ -1,8 +1,9 @@
+import 'package:finance_tracker/features/transactions/enums/transaction_type.dart';
 import 'package:finance_tracker/features/transactions/models/transaction_model.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:finance_tracker/features/transactions/providers/transaction_provider.dart';
 
-final filterProvider = StateProvider<String>((ref) => 'all');
+final filterProvider = StateProvider<TransactionType>((ref) => TransactionType.expense);
 
 final filteredTransactionsProvider = Provider<List<TransactionModel>>((ref) {
   final filter = ref.watch(filterProvider);

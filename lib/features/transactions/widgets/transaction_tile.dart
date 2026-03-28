@@ -1,6 +1,5 @@
 import 'package:finance_tracker/features/transactions/enums/transaction_type.dart';
 import 'package:finance_tracker/features/transactions/models/transaction_model.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class TransactionTile extends StatelessWidget {
@@ -23,7 +22,7 @@ class TransactionTile extends StatelessWidget {
       child: Icon(icon, color: color),
     );
 
-    var title = Text(transaction.title ?? "Não identificado");
+    var title = Text(transaction.title);
     var trailing = Text(
       '${transaction.type == TransactionType.expense ? '-' : '+'}${transaction.amount}',
     );
