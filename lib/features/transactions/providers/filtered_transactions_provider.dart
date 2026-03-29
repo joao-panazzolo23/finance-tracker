@@ -1,13 +1,13 @@
 import 'package:finance_tracker/features/transactions/enums/transaction_type.dart';
 import 'package:finance_tracker/features/transactions/models/transaction_model.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:finance_tracker/features/transactions/providers/transaction_provider.dart';
+import 'package:finance_tracker/features/transactions/providers/transaction_notifier.dart';
 
 final filterProvider = StateProvider<TransactionType>((ref) => TransactionType.expense);
 
 final filteredTransactionsProvider = Provider<List<TransactionModel>>((ref) {
   final filter = ref.watch(filterProvider);
-  final asyncTx = ref.watch(transactionProviderProvider);
+  final asyncTx = ref.watch(transactionNotifierProvider);
 
   return asyncTx.maybeWhen(
     data: (list) {
@@ -16,11 +16,3 @@ final filteredTransactionsProvider = Provider<List<TransactionModel>>((ref) {
     orElse: () => [],
   );
 });
-
-// if (filter == 'expense') {
-//   return list.where((t) => t.type == TransactionType.expense).toList();
-// }
-// if (filter == 'income') {
-//   return list.where((t) => t.type == TransactionType.received).toList();
-// }
-// return list;

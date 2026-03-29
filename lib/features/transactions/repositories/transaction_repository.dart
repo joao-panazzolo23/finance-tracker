@@ -35,29 +35,6 @@ class TransactionRepository {
   }
 
   Future<void> update(TransactionModel model) async {
-    await model.save();
-    //await model.(); // HiveObject method
+    await model.save();// HiveObject method
   }
 }
-
-//faking an API call
-// await Future.delayed(Duration(seconds: 2));
-//
-// //returning a hardcoded list to represent data retrieve
-// return [
-// TransactionModel(
-// id: '1',
-// title: 'Salário',
-// amount: 1570,
-// date: DateTime.now(),
-// type: TransactionType.received,
-// ),
-// TransactionModel(
-// id: '2',
-// title: 'Mercado',
-// amount: 185,
-// date: DateTime.now().add(Duration(days: -1)),
-// type: TransactionType.expense,
-// ),
-// ...transactions
-// ];

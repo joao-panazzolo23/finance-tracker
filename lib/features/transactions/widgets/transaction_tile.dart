@@ -1,14 +1,26 @@
 import 'package:finance_tracker/features/transactions/enums/transaction_type.dart';
 import 'package:finance_tracker/features/transactions/models/transaction_model.dart';
+import 'package:finance_tracker/features/transactions/providers/transaction_notifier.dart';
+import 'package:finance_tracker/pages/transaction_detail.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class TransactionTile extends StatelessWidget {
+class TransactionTile extends ConsumerWidget {
   final TransactionModel transaction;
 
   const TransactionTile({super.key, required this.transaction});
 
+  void seeDetails(BuildContext context, WidgetRef ref) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (_) => TransactionDetail(transaction: transaction),
+      ),
+    ).then((_) => ref.invalidate(transactionNotifierProvider));
+  }
+
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     var color = Colors.green;
     var icon = Icons.arrow_downward;
 
@@ -19,7 +31,7 @@ class TransactionTile extends StatelessWidget {
 
     var avatar = CircleAvatar(
       backgroundColor: color,
-      child: Icon(icon, color: color),
+      child: Icon(icon, color: Colors.white),
     );
 
     var title = Text(transaction.title);
@@ -40,6 +52,7 @@ class TransactionTile extends StatelessWidget {
       titleTextStyle: textStyle,
       subtitleTextStyle: TextStyle(color: Colors.grey[600]),
       subtitle: Text(transaction.date.toString()),
+      onLongPress: () => seeDetails(context, ref),
     );
   }
 }

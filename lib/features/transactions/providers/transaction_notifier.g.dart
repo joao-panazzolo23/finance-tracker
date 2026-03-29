@@ -1,32 +1,32 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'transaction_provider.dart';
+part of 'transaction_notifier.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$transactionProviderHash() =>
-    r'bf2efebfab8765c0d9824b278956e7be9fdfa279';
+String _$transactionNotifierHash() =>
+    r'c0ec4037c47655cfd247c45688bcb5b2d3584d2d';
 
 ///returning a global instance of TRANSACTION PROVIDER (not the class)
 ///This is comparable to Singleton pattern
-///Provider's name must match its partial class _$TransactionProvider
+///Provider's n
 ///
-/// Copied from [TransactionProvider].
-@ProviderFor(TransactionProvider)
-final transactionProviderProvider = AutoDisposeAsyncNotifierProvider<
-    TransactionProvider, List<TransactionModel>>.internal(
-  TransactionProvider.new,
-  name: r'transactionProviderProvider',
+/// Copied from [TransactionNotifier].
+@ProviderFor(TransactionNotifier)
+final transactionNotifierProvider = AutoDisposeAsyncNotifierProvider<
+    TransactionNotifier, List<TransactionModel>>.internal(
+  TransactionNotifier.new,
+  name: r'transactionNotifierProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
-      : _$transactionProviderHash,
+      : _$transactionNotifierHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef _$TransactionProvider
+typedef _$TransactionNotifier
     = AutoDisposeAsyncNotifier<List<TransactionModel>>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

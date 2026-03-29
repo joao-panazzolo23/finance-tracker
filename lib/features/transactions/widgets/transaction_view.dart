@@ -1,4 +1,4 @@
-import 'package:finance_tracker/features/transactions/providers/transaction_provider.dart';
+import 'package:finance_tracker/features/transactions/providers/transaction_notifier.dart';
 import 'package:finance_tracker/features/transactions/widgets/transactional_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -10,7 +10,7 @@ class TransactionView extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final transactionState = ref.watch(transactionProviderProvider);
+    final transactionState = ref.watch(transactionNotifierProvider);
 
     var appBar = AppBar(title: const Text('Transactions'));
 

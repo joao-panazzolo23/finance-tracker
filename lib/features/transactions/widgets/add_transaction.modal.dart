@@ -1,6 +1,6 @@
 import 'package:finance_tracker/features/transactions/enums/transaction_type.dart';
 import 'package:finance_tracker/features/transactions/models/transaction_model.dart';
-import 'package:finance_tracker/features/transactions/providers/transaction_provider.dart';
+import 'package:finance_tracker/features/transactions/providers/transaction_notifier.dart';
 import 'package:finance_tracker/shared/validators/currency_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -64,7 +64,7 @@ class _AddTransactionModalState extends ConsumerState<AddTransactionModal> {
 
   void onSavePressed() {
     if (_formKey.currentState!.validate()) {
-      final notifier = ref.read(transactionProviderProvider.notifier);
+      final notifier = ref.read(transactionNotifierProvider.notifier);
       // final repository = ref.read(transactionRepositoryProvider.notifier);
 
       var model = TransactionModel(

@@ -7,29 +7,35 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../repositories/transaction_repository.dart';
 
-part 'transaction_provider.g.dart';
+part 'transaction_notifier.g.dart';
 
 ///returning a global instance of TRANSACTION PROVIDER (not the class)
 ///This is comparable to Singleton pattern
 
-///Provider's name must match its partial class _$TransactionProvider
+///Provider's n
+// if (filter == 'expense') {
+//ame must match its partial class _$TransactionProvider
 @riverpod
-class TransactionProvider extends _$TransactionProvider {
-  late final TransactionRepository repository;
+class TransactionNotifier extends _$TransactionNotifier {
+  TransactionRepository get repository => ref.read(transactionRepositoryProvider);
 
   @override
   FutureOr<List<TransactionModel>> build() async {
     //decoupling like its DI containers
     //repository = TransactionRepository();
-    repository = ref.watch(transactionRepositoryProvider);
     return repository.fetchTransactions();
   }
 
   //Future<void> => Task in C#
   Future<void> addTransaction(TransactionModel model) async {
     state = AsyncLoading(); //(actual state of provider)
-
     await repository.add(model);
+    state = AsyncData(await repository.fetchTransactions());
+  }
+
+  Future<void> updateTransaction(TransactionModel model) async {
+    state = AsyncLoading(); //(actual state of provider)
+    await repository.update(model);
     state = AsyncData(await repository.fetchTransactions());
   }
 }
