@@ -21,17 +21,16 @@ class TransactionProvider extends _$TransactionProvider {
   FutureOr<List<TransactionModel>> build() async {
     //decoupling like its DI containers
     //repository = TransactionRepository();
-    repository = ref.watch(transactionRepositoryProvider.notifier);
+    repository = ref.watch(transactionRepositoryProvider);
     return repository.fetchTransactions();
   }
 
   //Future<void> => Task in C#
   Future<void> addTransaction(TransactionModel model) async {
-    //State = AsyncValue (actual state of provider)
-    //state = const AsyncLoading();
+    state = AsyncLoading(); //(actual state of provider)
 
-    final current = await future;
-    state = AsyncData([...current, model]);
+    await repository.add(model);
+    state = AsyncData(await repository.fetchTransactions());
   }
 }
 

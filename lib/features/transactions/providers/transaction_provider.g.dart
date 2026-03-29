@@ -7,7 +7,7 @@ part of 'transaction_provider.dart';
 // **************************************************************************
 
 String _$transactionProviderHash() =>
-    r'439346a7f400cc64e44c6fc5008cfcd1b712abb3';
+    r'bf2efebfab8765c0d9824b278956e7be9fdfa279';
 
 ///returning a global instance of TRANSACTION PROVIDER (not the class)
 ///This is comparable to Singleton pattern
@@ -29,4 +29,4 @@ final transactionProviderProvider = AutoDisposeAsyncNotifierProvider<
 typedef _$TransactionProvider
     = AutoDisposeAsyncNotifier<List<TransactionModel>>;
 // ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package
+// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member
