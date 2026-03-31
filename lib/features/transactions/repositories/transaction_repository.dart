@@ -36,5 +36,6 @@ class TransactionRepository {
 
   Future<void> update(TransactionModel model) async {
     await model.save();// HiveObject method
+    await box.compact();
   }
 }
