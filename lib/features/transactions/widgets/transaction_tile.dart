@@ -1,9 +1,10 @@
 import 'package:finance_tracker/features/transactions/enums/transaction_type.dart';
 import 'package:finance_tracker/features/transactions/models/transaction_model.dart';
 import 'package:finance_tracker/features/transactions/providers/transaction_notifier.dart';
-import 'package:finance_tracker/pages/transaction_detail.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+import '../pages/transaction_detail.dart';
 
 class TransactionTile extends ConsumerWidget {
   final TransactionModel transaction;

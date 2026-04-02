@@ -16,7 +16,9 @@ TransactionRepository transactionRepository(Ref ref) {
 }
 
 class TransactionRepository {
-  final box = Hive.box<TransactionModel>('transactions');
+  Box<TransactionModel> get box => Hive.box<TransactionModel>('transactions');
+
+  // final box = Hive.box<TransactionModel>('transactions');
 
   // Build method can be empty, but never undeclared
   @override
@@ -35,7 +37,7 @@ class TransactionRepository {
   }
 
   Future<void> update(TransactionModel model) async {
-    await model.save();// HiveObject method
+    await model.save(); // HiveObject method
     await box.compact();
   }
 }

@@ -3,10 +3,10 @@ import 'package:finance_tracker/features/transactions/widgets/transactional_list
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'add_transaction.modal.dart';
+import '../widgets/add_transaction.modal.dart';
 
-class TransactionView extends ConsumerWidget {
-  const TransactionView({super.key});
+class TransactionPage extends ConsumerWidget {
+  const TransactionPage({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
