@@ -1,6 +1,8 @@
 import 'package:finance_tracker/features/transactions/pages/transaction_page.dart';
 import 'package:flutter/material.dart';
 
+import '../../features/metrics/pages/metrics.dart';
+
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
@@ -13,7 +15,7 @@ class _HomeScreen extends State<HomeScreen> {
 
   final List<Widget> _pages = [
     const TransactionPage(),
-    const Center(child: Text('Métricas')),
+    const Metrics(),
     const Center(child: Text('Configurações')),
   ];
 
