@@ -21,8 +21,8 @@ class TransactionRepository {
   // final box = Hive.box<TransactionModel>('transactions');
 
   // Build method can be empty, but never undeclared
-  @override
-  FutureOr<void> build() {}
+  // @override
+  // FutureOr<void> build() {}
 
   Future<List<TransactionModel>> fetchTransactions() async {
     return box.values.toList();

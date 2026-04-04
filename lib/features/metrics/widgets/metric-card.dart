@@ -1,4 +1,4 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
 class MetricCard extends StatelessWidget {
   const MetricCard({
@@ -15,36 +15,47 @@ class MetricCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(16),
-      decoration: boxDecoration(),
-      child: column(),
+      padding: EdgeInsets.all(14),
+      decoration: _boxDecoration(),
+      child: _column(),
     );
   }
 
-  BoxDecoration boxDecoration() {
+  BoxDecoration _boxDecoration() {
     return BoxDecoration(
-      color: color.withValues(),
+      color: color.withValues(alpha: 0.08),
       borderRadius: BorderRadius.circular(12),
+      border: Border.all(color: color.withValues(alpha: 0.2)),
     );
   }
 
-  Text columnText() {
+  Text _columnText() {
     return Text("R\$ ${value.toStringAsFixed(2)}",
         style: TextStyle(
           fontSize: 20,
           fontWeight: FontWeight.bold,
-          color: color,
+          color: Colors.black,
         ));
   }
 
-  Column column() {
+  Column _column() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(title),
+        _title(),
         SizedBox(),
-        columnText(),
+        _columnText(),
       ],
+    );
+  }
+
+  Text _title() {
+    return Text(
+      title,
+      style: TextStyle(
+        fontSize: 11,
+        fontWeight: FontWeight.w500,
+      ),
     );
   }
 }

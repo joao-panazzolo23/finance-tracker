@@ -1,3 +1,4 @@
+import 'package:finance_tracker/features/metrics/widgets/balance_chart.dart';
 import 'package:flutter/material.dart';
 import '../widgets/metric-card.dart';
 
@@ -6,9 +7,12 @@ class Metrics extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: 100,
-      child: row(),
+    return Column(
+      children: [
+        row(),
+        SizedBox(height: 24),
+        BalanceChart(),
+      ],
     );
   }
 
