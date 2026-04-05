@@ -1,17 +1,27 @@
+import 'dart:async';
+
+import 'package:finance_tracker/features/metrics/providers/metrics_provider.dart';
+import 'package:finance_tracker/features/metrics/viewmodels/metrics_viewmodel.dart';
+import 'package:finance_tracker/features/transactions/providers/transaction_notifier.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class BalanceChart extends StatelessWidget {
+class BalanceChart extends ConsumerWidget {
   const BalanceChart({super.key});
 
-  static final data = [
-    (income: 3800.0, expense: 2600.0),
-    (income: 3500.0, expense: 2900.0),
-    (income: 4200.0, expense: 2800.0),
-    (income: 3900.0, expense: 3100.0),
-    (income: 4500.0, expense: 2700.0),
-    (income: 4200.0, expense: 2800.0),
-  ];
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    //ref.read => gets the value once and never listens for changes
+    //ref.watch => listens to it all the time.
+    var metricsAsync = ref.watch(metricsProvider);
+
+    return metricsAsync.when(
+      data: (data) => SingleChildScrollView(child: _column(data)),
+      error: (e, _) => Text("Deu merda aq paizao"),
+      loading: () => const CircularProgressIndicator(),
+    );
+  }
 
   static const List<String> months = [
     "Jan",
@@ -28,22 +38,16 @@ class BalanceChart extends StatelessWidget {
     "Dez",
   ];
 
-  @override
-  Widget build(BuildContext context) {
-    return _column();
-  }
-
-  Column _column() {
+  Column _column(List<MetricsViewmodel> data) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         _text(),
-        const SizedBox(
-          height: 4,
-        ),
+        const SizedBox(height: 4),
         _legend(),
-        const SizedBox(
-          height: 16,
+        SizedBox(
+          height: 230,
+          child: BarChart(_buildChart(data)),
         ),
       ],
     );
@@ -63,9 +67,7 @@ class BalanceChart extends StatelessWidget {
     return Row(
       children: [
         _legendItem(color: Colors.green, label: "Entradas"),
-        const SizedBox(
-          height: 16,
-        ),
+        const SizedBox(height: 16),
         _legendItem(color: Colors.redAccent, label: "Saídas"),
       ],
     );
@@ -98,12 +100,12 @@ class BalanceChart extends StatelessWidget {
         ));
   }
 
-  BarChartData _buildChart() {
+  BarChartData _buildChart(List<MetricsViewmodel> data) {
     return BarChartData(
         gridData: gridData(),
         borderData: FlBorderData(show: false),
         titlesData: titleData(),
-        barGroups: _buildBarGroups(),
+        barGroups: _buildBarGroups(data),
         barTouchData: _barTouchData());
   }
 
@@ -111,34 +113,43 @@ class BalanceChart extends StatelessWidget {
     var sideTitles = SideTitles(showTitles: false);
     var axis = AxisTitles(sideTitles: sideTitles);
 
+    var bottomTitle = AxisTitles(
+        sideTitles: SideTitles(
+      showTitles: true,
+      reservedSize: 24,
+      getTitlesWidget: _bottomTitle,
+    ));
+
     return FlTitlesData(
         leftTitles: axis,
         rightTitles: axis,
         topTitles: axis,
-        bottomTitles: axis);
+        bottomTitles: bottomTitle);
   }
 
-  Widget _bottomTitle(int value, TitleMeta meta) {
+  Widget _bottomTitle(double value, TitleMeta meta) {
     return SideTitleWidget(
         axisSide: meta.axisSide,
         child: Text(
-          months[value],
-          style: const TextStyle(fontSize: 11, color: Colors.grey),
+          months[value.toInt()],
+          style: const TextStyle(fontSize: 11, color: Colors.black),
         ));
   }
 
   FlGridData gridData() {
+    FlLine getDrawingHorizontalLine(value) => FlLine(
+          color: Colors.grey.withValues(alpha: 0.15),
+          strokeWidth: 1,
+        );
     return FlGridData(
-        show: true,
-        drawVerticalLine: false,
-        getDrawingHorizontalLine: (value) => FlLine(
-              color: Colors.grey.withValues(alpha: 0.15),
-              strokeWidth: 1,
-            ));
+      show: true,
+      drawVerticalLine: false,
+      getDrawingHorizontalLine: getDrawingHorizontalLine,
+    );
   }
 
-  ///omg
-  List<BarChartGroupData>? _buildBarGroups() {
+  ///refactor this please
+  List<BarChartGroupData>? _buildBarGroups(List<MetricsViewmodel> data) {
     return data.indexed.map((entry) {
       final i = entry.$1;
       final d = entry.$2;

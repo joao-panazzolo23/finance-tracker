@@ -7,10 +7,8 @@ part of 'transaction_notifier.dart';
 // **************************************************************************
 
 String _$transactionNotifierHash() =>
-    r'613430f1a1743570022d7551b54e46935afc3a0f';
+    r'62cb789278a837741fad96777517c273b18b46fe';
 
-///returning a global instance of TRANSACTION PROVIDER (not the class)
-///This is comparable to Singleton pattern
 ///Provider's n
 ///
 /// Copied from [TransactionNotifier].

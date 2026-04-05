@@ -119,7 +119,7 @@ class _AddTransactionModalState extends ConsumerState<AddTransactionModal> {
       initialSelection: selectedType,
       dropdownMenuEntries: [
         DropdownMenuEntry(value: TransactionType.expense, label: "Saída"),
-        DropdownMenuEntry(value: TransactionType.received, label: "Entrada"),
+        DropdownMenuEntry(value: TransactionType.income, label: "Entrada"),
       ],
       onSelected: (value) {
         setState(() => selectedType = value!);

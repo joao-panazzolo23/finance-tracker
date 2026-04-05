@@ -1,4 +1,5 @@
 import 'package:finance_tracker/features/transactions/enums/transaction_type.dart';
+import 'package:finance_tracker/shared/extensions/date_extensions.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hive/hive.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -12,19 +13,22 @@ part 'transaction_repository.g.dart';
 // });
 @riverpod
 TransactionRepository transactionRepository(Ref ref) {
-  return TransactionRepository();
+  final box = ref.watch(transactionBoxProvider);
+  return TransactionRepository(box: box);
+}
+
+///Returns an instance of transactions box.
+@riverpod
+Box<TransactionModel> transactionBox(Ref ref) {
+  return Hive.box<TransactionModel>('transactions');
 }
 
 class TransactionRepository {
-  Box<TransactionModel> get box => Hive.box<TransactionModel>('transactions');
+  final Box<TransactionModel> box;
 
-  // final box = Hive.box<TransactionModel>('transactions');
+  const TransactionRepository({required this.box});
 
-  // Build method can be empty, but never undeclared
-  // @override
-  // FutureOr<void> build() {}
-
-  Future<List<TransactionModel>> fetchTransactions() async {
+  Future<List<TransactionModel>> getAll() async {
     return box.values.toList();
   }
 
@@ -39,5 +43,16 @@ class TransactionRepository {
   Future<void> update(TransactionModel model) async {
     await model.save(); // HiveObject method
     await box.compact();
+  }
+
+  Future<double> getMetrics(
+    TransactionType type,
+    DateTime startDate,
+    DateTime endDate,
+  ) async {
+    var results = box.values
+        .where((x) => x.type == type && x.date.isBetween(startDate, endDate));
+
+    return results.fold<double>(0, (total, item) => total + item.amount);
   }
 }

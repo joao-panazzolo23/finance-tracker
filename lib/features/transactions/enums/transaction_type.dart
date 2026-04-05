@@ -5,7 +5,7 @@ part 'transaction_type.g.dart';
 @HiveType(typeId: 1)
 enum TransactionType{
   @HiveField(0)
-  received,
+  income,
   @HiveField(1)
   expense
 }
