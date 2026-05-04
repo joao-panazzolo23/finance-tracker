@@ -1,10 +1,11 @@
 import 'package:finance_tracker/features/transactions/enums/transaction_type.dart';
 import 'package:finance_tracker/features/transactions/models/transaction_model.dart';
-import 'package:finance_tracker/features/transactions/pages/transaction_page.dart';
 import 'package:finance_tracker/shared/pages/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hive_flutter/adapters.dart';
+
+import 'core/widgets/app-navigation-bar.dart';
 
 ///Equivalent to .NET's Program.cs
 void main() async {
@@ -23,8 +24,12 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: HomeScreen(),
+    return MaterialApp(
+      home: const HomeScreen(),
+      theme: ThemeData(
+          useMaterial3: true, navigationBarTheme: navigationBarTheme()),
     );
   }
+
+
 }

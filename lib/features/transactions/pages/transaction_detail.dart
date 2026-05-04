@@ -56,7 +56,7 @@ class _TransactionDetail extends ConsumerState<TransactionDetail> {
   Widget form() {
     var spacing = const SizedBox(height: 16);
 
-    return Form(
+    var form = Form(
       key: _formKey,
       child: Column(
         children: [
@@ -68,6 +68,11 @@ class _TransactionDetail extends ConsumerState<TransactionDetail> {
           saveButton()
         ],
       ),
+    );
+
+    return Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: form,
     );
   }
 

@@ -7,12 +7,17 @@ class Metrics extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
+    var column = Column(
       children: [
         row(),
         SizedBox(height: 24),
         BalanceChart(),
       ],
+    );
+
+    return Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: column,
     );
   }
 

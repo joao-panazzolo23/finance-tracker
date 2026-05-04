@@ -1,6 +1,7 @@
 import 'package:finance_tracker/features/transactions/pages/transaction_page.dart';
 import 'package:flutter/material.dart';
 
+import '../../core/widgets/app-navigation-bar.dart';
 import '../../features/metrics/pages/metrics.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -22,31 +23,22 @@ class _HomeScreen extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: _pages[_currentIndex],
-      bottomNavigationBar: bottomNavigationBar(),
+        body: _pages[_currentIndex],
+        bottomNavigationBar: AppNavigationBar(
+            selectedIndex: _currentIndex,
+            onChange: _handleTabChange
+        )
     );
   }
 
-  Widget bottomNavigationBar() {
-    return BottomNavigationBar(
-      items: tabs(),
-      onTap: _handleTabChange,
-      currentIndex: _currentIndex,
-    );
-  }
-
-  List<BottomNavigationBarItem> tabs() {
-    return const [
-      BottomNavigationBarItem(icon: Icon(Icons.wallet), label: "Saldo"),
-      BottomNavigationBarItem(icon: Icon(Icons.bar_chart), label: "Métricas"),
-      BottomNavigationBarItem(
-          icon: Icon(Icons.settings), label: "Configurações"),
-    ];
-  }
 
   void _handleTabChange(int index) {
     setState(() => _currentIndex = index);
   }
-
-
 }
+
+
+
+
+
+
