@@ -13,6 +13,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreen extends State<HomeScreen> {
   int _currentIndex = 0;
+  final _pageController = PageController();
 
   final List<Widget> _pages = [
     const TransactionPage(),
@@ -23,22 +24,24 @@ class _HomeScreen extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: _pages[_currentIndex],
+        // body: _pages[_currentIndex],
+        body: PageView(
+          controller: _pageController,
+          onPageChanged: (index) {
+            setState(() => _currentIndex = index);
+          },
+          children: _pages,
+        ),
         bottomNavigationBar: AppNavigationBar(
-            selectedIndex: _currentIndex,
-            onChange: _handleTabChange
-        )
+            selectedIndex: _currentIndex, onChange: _onTabChanged));
+  }
+
+  void _onTabChanged(int index) {
+    // setState(() => _currentIndex = index);
+    _pageController.animateToPage(
+      index,
+      duration: const Duration(milliseconds: 250),
+      curve: Curves.easeInOut,
     );
   }
-
-
-  void _handleTabChange(int index) {
-    setState(() => _currentIndex = index);
-  }
 }
-
-
-
-
-
-
