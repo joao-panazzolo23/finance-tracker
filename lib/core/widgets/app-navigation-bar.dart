@@ -22,6 +22,7 @@ class AppNavigationBar extends StatelessWidget {
       destinations: destinations,
       onDestinationSelected: onChange,
       selectedIndex: selectedIndex,
+      labelBehavior: NavigationDestinationLabelBehavior.alwaysHide,
       height: 60,
       elevation: 0,
     );
@@ -34,24 +35,49 @@ class AppNavigationBar extends StatelessWidget {
       child: navBar,
     );
 
+    var shadows = BoxShadow(
+      blurRadius: selectedIndex == 0 ? 30 : 10,
+      offset: Offset(0, selectedIndex == 0 ? 10 : 4),
+      color: Colors.black.withValues(alpha: selectedIndex == 0 ? 0.15 : 0.08),
+    );
+
+    var decorations = BoxDecoration(
+      borderRadius: BorderRadius.circular(selectedIndex == 0 ? 28 : 20),
+      boxShadow: [shadows],
+    );
+
+    var container = AnimatedContainer(
+      duration: Duration(milliseconds: 300),
+      curve: Curves.easeInToLinear,
+      decoration: decorations,
+      // color: Theme.of(context).colorScheme.surface,
+      child: material,
+    );
+
     return Padding(
       padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
-      child: material,
+      child: container,
     );
   }
 }
 
+WidgetStateProperty<TextStyle> _labelTextStyle() => WidgetStateProperty.all(
+      const TextStyle(fontSize: 12, fontWeight: FontWeight.w500),
+    );
+
+WidgetStateProperty<IconThemeData> _themeData() =>
+    WidgetStateProperty.resolveWith((state) {
+      if (state.contains(WidgetState.selected)) {
+        return const IconThemeData(size: 28, color: Colors.blue);
+      }
+      return const IconThemeData(size: 24, color: Colors.grey);
+    });
+
 NavigationBarThemeData navigationBarTheme() {
   return NavigationBarThemeData(
       backgroundColor: Colors.white,
-      indicatorColor: Colors.blue.withAlpha(1),
-      labelTextStyle: WidgetStateProperty.all(
-        const TextStyle(fontSize: 12, fontWeight: FontWeight.w500),
-      ),
-      iconTheme: WidgetStateProperty.resolveWith((state) {
-        if (state.contains(WidgetState.selected)) {
-          return const IconThemeData(color: Colors.blue);
-        }
-        return const IconThemeData(color: Colors.grey);
-      }));
+      labelBehavior: NavigationDestinationLabelBehavior.alwaysHide,
+      indicatorColor: Colors.blue.withValues(alpha: 0.15),
+      labelTextStyle: _labelTextStyle(),
+      iconTheme: _themeData());
 }
