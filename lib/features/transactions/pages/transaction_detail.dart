@@ -1,6 +1,5 @@
 import 'package:finance_tracker/features/transactions/enums/transaction_type.dart';
 import 'package:finance_tracker/features/transactions/models/transaction_model.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -46,9 +45,6 @@ class _TransactionDetail extends ConsumerState<TransactionDetail> {
   PreferredSizeWidget? appBar() {
     return AppBar(
       title: const Text("Editar transação"),
-      // actions: [
-      //   IconButton(icon: const Icon(Icons.check), onPressed: _save),
-      // ],
     );
   }
 

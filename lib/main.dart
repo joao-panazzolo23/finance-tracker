@@ -29,8 +29,5 @@ class MyApp extends StatelessWidget {
       home: const HomeScreen(),
       theme: appTheme(),
     );
-    //ThemeData(
-    //       useMaterial3: true, navigationBarTheme: navigationBarTheme()),
-    // );
   }
 }
