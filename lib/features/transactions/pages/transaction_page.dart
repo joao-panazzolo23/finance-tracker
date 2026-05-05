@@ -8,10 +8,13 @@ class TransactionPage extends ConsumerWidget {
   const TransactionPage({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(
+    BuildContext context,
+    WidgetRef ref,
+  ) {
     final transactionState = ref.watch(transactionNotifierProvider);
 
-    var appBar = AppBar(title: const Text('Transactions'));
+    var appBar = AppBar(title: const Text('Minhas transações'));
 
     return Scaffold(
       appBar: appBar,

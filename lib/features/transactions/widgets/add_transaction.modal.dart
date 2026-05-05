@@ -47,7 +47,7 @@ class _AddTransactionModalState extends ConsumerState<AddTransactionModal> {
     final column = Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        buildMenu(),
+        selectField(),
         spacing,
         buildAmountField(),
         spacing,
@@ -57,28 +57,31 @@ class _AddTransactionModalState extends ConsumerState<AddTransactionModal> {
       ],
     );
 
-    final form = Form(key: _formKey, child: column);
+    final form = Form(
+      key: _formKey,
+      child: column,
+    );
 
-    return Padding(padding: const EdgeInsets.all(16.0), child: form);
+    return Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: form,
+    );
   }
 
   void onSavePressed() {
     if (_formKey.currentState!.validate()) {
       final notifier = ref.read(transactionNotifierProvider.notifier);
-      // final repository = ref.read(transactionRepositoryProvider.notifier);
 
       var model = TransactionModel(
-          id: 'NONE99',
-          title: descriptionController.text,
-          amount: double.parse(amountController.text),
-          date: DateTime.now(),
-          type: selectedType
+        //todo: replace it with Guid
+        id: 'NONE99',
+        title: descriptionController.text,
+        amount: double.parse(amountController.text),
+        date: DateTime.now(),
+        type: selectedType,
       );
 
       notifier.addTransaction(model);
-      print('Type: $selectedType');
-      print('Amount: ${amountController.text}');
-      print('Description: ${descriptionController.text}');
       Navigator.pop(context);
     }
   }
@@ -90,10 +93,8 @@ class _AddTransactionModalState extends ConsumerState<AddTransactionModal> {
         hintText: "Descrição",
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
       ),
-      validator: (value) =>
-      (value == null || value
-          .trim()
-          .isEmpty)
+      //todo: replace it with a static function
+      validator: (value) => (value == null || value.trim().isEmpty)
           ? 'Descrição obrigatória'
           : null,
     );
@@ -114,7 +115,7 @@ class _AddTransactionModalState extends ConsumerState<AddTransactionModal> {
     );
   }
 
-  Widget buildMenu() {
+  Widget selectField() {
     return DropdownMenu(
       initialSelection: selectedType,
       dropdownMenuEntries: [

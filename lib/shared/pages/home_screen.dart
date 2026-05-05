@@ -33,7 +33,9 @@ class _HomeScreen extends State<HomeScreen> {
           children: _pages,
         ),
         bottomNavigationBar: AppNavigationBar(
-            selectedIndex: _currentIndex, onChange: _onTabChanged));
+          selectedIndex: _currentIndex,
+          onChange: _onTabChanged,
+        ));
   }
 
   void _onTabChanged(int index) {

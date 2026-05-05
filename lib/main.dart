@@ -1,3 +1,4 @@
+import 'package:finance_tracker/core/decorations/input-decoration-theme.dart';
 import 'package:finance_tracker/features/transactions/enums/transaction_type.dart';
 import 'package:finance_tracker/features/transactions/models/transaction_model.dart';
 import 'package:finance_tracker/shared/pages/home_screen.dart';
@@ -26,8 +27,10 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: const HomeScreen(),
-      theme: ThemeData(
-          useMaterial3: true, navigationBarTheme: navigationBarTheme()),
+      theme: appTheme(),
     );
+    //ThemeData(
+    //       useMaterial3: true, navigationBarTheme: navigationBarTheme()),
+    // );
   }
 }
