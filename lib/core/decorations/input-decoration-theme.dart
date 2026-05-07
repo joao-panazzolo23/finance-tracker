@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../colors/dark-mode.dart';
 
+
 ThemeData appTheme() {
   const primary = DarkMode.primary;
   return ThemeData(
@@ -18,6 +19,7 @@ ThemeData appTheme() {
   );
 }
 
+///todo: remove all colors and set it to dark/white themes
 InputDecorationTheme inputDecorationTheme(Color primary) {
   return InputDecorationTheme(
     filled: true,

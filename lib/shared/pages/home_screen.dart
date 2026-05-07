@@ -2,6 +2,7 @@ import 'package:finance_tracker/features/transactions/pages/transaction_page.dar
 import 'package:flutter/material.dart';
 
 import '../../core/widgets/app-navigation-bar.dart';
+import '../../features/configurations/pages/configurations-page.dart';
 import '../../features/metrics/pages/metrics.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -18,7 +19,8 @@ class _HomeScreen extends State<HomeScreen> {
   final List<Widget> _pages = [
     const TransactionPage(),
     const Metrics(),
-    const Center(child: Text('Configurações')),
+    const ConfigurationsPage()
+    // const Center(child: Text('Configurações')),
   ];
 
   @override
