@@ -30,7 +30,14 @@ class AppThemeNotifier extends _$AppThemeNotifier {
     state = mode;
   }
 
-  void toggle() {
+  Future<void> toggle() async {
     state = state == ThemeMode.light ? ThemeMode.dark : ThemeMode.light;
+
+    final prefs = await SharedPreferences.getInstance();
+
+    await prefs.setString(
+      _key,
+      state.name,
+    );
   }
 }
