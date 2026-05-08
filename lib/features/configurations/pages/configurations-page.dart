@@ -25,13 +25,6 @@ class _AppConfigurations extends ConsumerState<ConfigurationsPage> {
     );
   }
 
-  Future<void> _onSwitchChanged(
-    bool value,
-    AppThemeNotifier notifier,
-  ) async {
-    await notifier.toggle();
-  }
-
   AppBar _settings() {
     return AppBar(
       title: Text("Configurações"),
@@ -51,7 +44,7 @@ class _AppConfigurations extends ConsumerState<ConfigurationsPage> {
   SwitchListTile _switchListTile(bool isDarkMode, AppThemeNotifier notifier) {
     return SwitchListTile(
       secondary: const Icon(Icons.dark_mode),
-      subtitle: const Text("Modo escuro"),
+      title: const Text("Modo escuro"),
       value: isDarkMode,
       onChanged: (value) async {
         await notifier.toggle();
