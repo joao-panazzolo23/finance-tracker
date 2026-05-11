@@ -1,12 +1,31 @@
+import 'package:finance_tracker/features/metrics/providers/metrics_provider.dart';
 import 'package:finance_tracker/features/metrics/widgets/balance_chart.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../widgets/metric-card.dart';
 
-class Metrics extends StatelessWidget {
+class Metrics extends ConsumerWidget {
   const Metrics({super.key});
 
+  Row header() {
+    var spacing = const SizedBox();
+
+    return Row(
+      children: [
+        _outcome(),
+        spacing,
+        _income(),
+        spacing,
+        _saved(),
+      ],
+    );
+  }
+
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    //todo: fazer um provider q traga os valores de entrada e de saída
+    // var value = ref.read(metricsProvider);
     var column = Column(
       children: [
         row(),
@@ -21,44 +40,50 @@ class Metrics extends StatelessWidget {
     );
   }
 
-  Widget row() {
+  Row row() {
     var spacing = const SizedBox(
       width: 10,
     );
 
     return Row(children: [
-      income(),
+      _income(),
       spacing,
-      outcome(),
+      _outcome(),
       spacing,
-      saved(),
+      _saved(),
     ]);
   }
 
-  Widget saved() {
-    var card = MetricCard(
-      title: "Saldo",
-      color: Colors.blue,
-      value: 900,
-    );
-    return Expanded(child: card);
+  Expanded _saved() {
+    return Expanded(
+        child: MetricCard(
+      label: "lucro",
+      dotColor: Colors.deepPurple,
+      value: "RS9999",
+      isPositive: true,
+      trend: "+12% mês", //trocar isso dps pra algo dinâmico
+    ));
   }
 
-  Widget income() {
-    var card = MetricCard(
-      title: "Entradas",
-      color: Colors.green,
-      value: 2000,
-    );
-    return Expanded(child: card);
+  Expanded _income() {
+    return Expanded(
+        child: MetricCard(
+      label: "saídas",
+      dotColor: Colors.redAccent,
+      value: "RS1298.87",
+      isPositive: true,
+      trend: "+5% mês", //trocar isso dps pra algo dinâmico
+    ));
   }
 
-  Widget outcome() {
-    var card = MetricCard(
-      title: "Saídas",
-      color: Colors.red,
-      value: 2000,
-    );
-    return Expanded(child: card);
+  Expanded _outcome() {
+    return Expanded(
+        child: MetricCard(
+      label: "entradas",
+      dotColor: Colors.green,
+      value: "RS1298.87",
+      isPositive: false,
+      trend: "-4% mês", //trocar isso dps pra algo dinâmico
+    ));
   }
 }

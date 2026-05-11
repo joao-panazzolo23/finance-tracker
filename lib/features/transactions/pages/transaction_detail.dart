@@ -1,5 +1,8 @@
+import 'package:finance_tracker/core/widgets/app-snack-bar.dart';
 import 'package:finance_tracker/features/transactions/enums/transaction_type.dart';
 import 'package:finance_tracker/features/transactions/models/transaction_model.dart';
+import 'package:finance_tracker/features/transactions/providers/transaction_notifier.dart';
+import 'package:finance_tracker/features/transactions/repositories/transaction_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -18,6 +21,7 @@ class _TransactionDetail extends ConsumerState<TransactionDetail> {
   late TextEditingController _titleController;
   late TextEditingController _amountController;
   late TransactionType _selectedType;
+  late TransactionNotifier _notifier;
   final _formKey = GlobalKey<FormState>();
 
   @override
@@ -131,10 +135,11 @@ class _TransactionDetail extends ConsumerState<TransactionDetail> {
       ..amount = double.parse(_amountController.text.trim())
       ..type = _selectedType;
 
-    //qq eu tava fazendo aq msm?
-    //var repo = await ref.read(transactionNotifierProvider.notifier);
-    //ref.invalidate(transactionRepositoryProvider);
+    var notifier = ref.read(transactionRepositoryProvider);
 
+    notifier.update(widget.transaction);
     if (mounted) Navigator.pop(context);
+
+    AppSnackBar.success(context, message: "Transação atualizada com sucesso!");
   }
 }

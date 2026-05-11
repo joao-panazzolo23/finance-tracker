@@ -1,3 +1,4 @@
+import 'package:finance_tracker/core/widgets/app-snack-bar.dart';
 import 'package:finance_tracker/features/transactions/enums/transaction_type.dart';
 import 'package:finance_tracker/features/transactions/models/transaction_model.dart';
 import 'package:finance_tracker/features/transactions/providers/transaction_notifier.dart';
@@ -5,6 +6,7 @@ import 'package:finance_tracker/shared/validators/currency_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:uuid/uuid.dart';
 
 class AddTransactionModal extends ConsumerStatefulWidget {
   const AddTransactionModal({super.key});
@@ -72,17 +74,19 @@ class _AddTransactionModalState extends ConsumerState<AddTransactionModal> {
     if (_formKey.currentState!.validate()) {
       final notifier = ref.read(transactionNotifierProvider.notifier);
 
+      const uuid = Uuid();
+
       var model = TransactionModel(
-        //todo: replace it with Guid
-        id: 'NONE99',
+        id: uuid.v4(),
         title: descriptionController.text,
-        amount: double.parse(amountController.text),
+        amount: double.parse(amountController.text.replaceAll(",", ".")),
         date: DateTime.now(),
         type: selectedType,
       );
 
       notifier.addTransaction(model);
       Navigator.pop(context);
+      AppSnackBar.success(context, message: "Transação salva com sucesso!");
     }
   }
 

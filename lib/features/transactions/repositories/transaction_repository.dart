@@ -7,10 +7,10 @@ import '../models/transaction_model.dart';
 
 part 'transaction_repository.g.dart';
 
-//this is @riverpod's boilerplate code old form
-// final transactionRepositoryProvider = Provider<TransactionRepository>((ref) {
-//   return TransactionRepository();
-// });
+
+// });//this is @riverpod's boilerplate code old form
+// // final transactionRepositoryProvider = Provider<TransactionRepository>((ref) {
+// //   return TransactionRepository();
 @riverpod
 TransactionRepository transactionRepository(Ref ref) {
   final box = ref.watch(transactionBoxProvider);
@@ -37,22 +37,25 @@ class TransactionRepository {
   }
 
   Future<void> delete(TransactionModel model) async {
-    await box.delete(model);
+    await model.delete();
   }
 
   Future<void> update(TransactionModel model) async {
     await model.save(); // HiveObject method
-    await box.compact();
   }
 
-  Future<double> getMetrics(
+  double getMetrics(
     TransactionType type,
     DateTime startDate,
     DateTime endDate,
-  ) async {
-    var results = box.values
-        .where((x) => x.type == type && x.date.isBetween(startDate, endDate));
+  ) {
+    final results = box.values.where(
+      (x) => x.type == type && x.date.isBetween(startDate, endDate),
+    );
 
-    return results.fold<double>(0, (total, item) => total + item.amount);
+    return results.fold<double>(
+      0,
+      (total, item) => total + item.amount,
+    );
   }
 }
