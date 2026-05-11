@@ -1,8 +1,8 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class FinanceHeader extends StatelessWidget {
-  final String totalBalance;
+  final double totalBalance;
   final String period;
 
   const FinanceHeader({
@@ -58,7 +58,7 @@ class FinanceHeader extends StatelessWidget {
           color: colorScheme.onSurfaceVariant,
         ),
         spacing,
-        Text("maio 2025")
+        Text("maio 2025") //TODO: REMOVE HARDCODE
       ],
     );
   }
@@ -77,7 +77,10 @@ class FinanceHeader extends StatelessWidget {
             )),
         spacing,
         Text(
-          totalBalance,
+          NumberFormat.currency(
+            locale: 'pt_BR',
+            symbol: 'R\$',
+          ).format(totalBalance),
           style:
               textTheme.headlineMedium?.copyWith(fontWeight: FontWeight.w500),
         ),

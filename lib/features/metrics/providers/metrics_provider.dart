@@ -1,4 +1,4 @@
-import 'package:finance_tracker/features/transactions/providers/transaction_notifier.dart';
+import 'package:finance_tracker/features/metrics/dtos/finance-result-dto.dart';
 import 'package:finance_tracker/features/transactions/repositories/transaction_repository.dart';
 
 import '../../../shared/extensions/date_extensions.dart';
@@ -8,15 +8,9 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'metrics_provider.g.dart';
 
-///Returns all
-@riverpod
-Future<List<MetricsViewmodel>> metrics(MetricsRef ref) async {
-  return getMetrics(ref);
-}
-
 ///Retrieve expenses and incomes for every month in the past year
 @riverpod
-Future<List<MetricsViewmodel>> getMetrics(MetricsRef ref) async {
+Future<List<MetricsViewmodel>> getMetrics(GetMetricsRef ref) async {
   final repository = ref.watch(transactionRepositoryProvider);
   final results = <MetricsViewmodel>[];
   final now = DateTime.now();
@@ -32,4 +26,29 @@ Future<List<MetricsViewmodel>> getMetrics(MetricsRef ref) async {
   }
 
   return results;
+}
+
+@riverpod
+FinanceResultDto getResumedReview(GetResumedReviewRef ref) {
+  final repository = ref.watch(transactionRepositoryProvider);
+  final now = DateTime.now();
+  var startDate = now.subtract(Duration(days: 365));
+
+  final expenses = repository.getMetrics(
+    TransactionType.expense,
+    startDate,
+    now,
+  );
+
+  final incomes = repository.getMetrics(
+    TransactionType.income,
+    startDate,
+    now,
+  );
+
+  return FinanceResultDto(
+    income: incomes,
+    outcome: expenses,
+    profit: incomes - expenses,
+  );
 }

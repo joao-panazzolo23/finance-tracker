@@ -14,15 +14,17 @@ class BalanceChart extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     //ref.read => gets the value once and never listens for changes
     //ref.watch => listens to it all the time.
-    var metricsAsync = ref.watch(metricsProvider);
+    var metrics = ref.watch(getMetricsProvider);
+    // var getResumedReview = ref.watch(getResumedReviewProvider);
 
-    return metricsAsync.when(
+    return metrics.when(
       data: (data) => SingleChildScrollView(child: _column(data, context)),
       error: (e, _) => Text("Deu merda aq paizao"),
       loading: () => const CircularProgressIndicator(),
     );
   }
 
+  ///todo: pass it to another file
   static const List<String> months = [
     "Jan",
     "Fev",
@@ -106,17 +108,16 @@ class BalanceChart extends ConsumerWidget {
     final colorScheme = Theme.of(context).colorScheme;
 
     return BarChartData(
-      gridData: gridData(colorScheme),
+      gridData: _gridData(colorScheme),
       borderData: FlBorderData(show: false),
-      titlesData: titleData(colorScheme),
+      titlesData: _titleData(colorScheme),
       barGroups: _buildBarGroups(data),
       barTouchData: _barTouchData(colorScheme),
-      // isso evita que uma barra gigante esmague as outras
       maxY: _calcMaxY(data),
     );
   }
 
-  FlTitlesData titleData(ColorScheme colorScheme) {
+  FlTitlesData _titleData(ColorScheme colorScheme) {
     var sideTitles = SideTitles(showTitles: false);
     var axis = AxisTitles(sideTitles: sideTitles);
 
@@ -149,7 +150,7 @@ class BalanceChart extends ConsumerWidget {
     );
   }
 
-  FlGridData gridData(ColorScheme colorScheme) {
+  FlGridData _gridData(ColorScheme colorScheme) {
     FlLine getDrawingHorizontalLine(value) => FlLine(
           color: colorScheme.outlineVariant.withValues(alpha: 0.4),
           strokeWidth: 1,

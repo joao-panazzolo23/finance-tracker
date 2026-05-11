@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class MetricCard extends StatelessWidget {
   final String label;
-  final String value;
+  final double value;
   final String trend;
   final bool isPositive;
   final Color dotColor;
@@ -40,12 +41,11 @@ class MetricCard extends StatelessWidget {
 
   Text _columnText(TextTheme textTheme) {
     return Text(
-      value,
+      NumberFormat.currency(
+        locale: 'pt_BR',
+        symbol: 'R\$',
+      ).format(value),
       style: textTheme.titleMedium,
-      // style: TextStyle(
-      //   fontSize: 20,
-      //   fontWeight: FontWeight.bold,
-      //   color: Colors.black,
     );
   }
 
@@ -87,18 +87,3 @@ class MetricCard extends StatelessWidget {
     );
   }
 }
-
-// style: TextStyle(
-//   fontSize: 11,
-//   fontWeight: FontWeight.w500,
-// ),
-
-//OLD
-// Text _columnText() {
-//   return Text("R\$ ${value.toStringAsFixed(2)}",
-//       style: TextStyle(
-//         fontSize: 20,
-//         fontWeight: FontWeight.bold,
-//         color: Colors.black,
-//       ));
-// }
