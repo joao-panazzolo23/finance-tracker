@@ -1,7 +1,6 @@
 import 'package:finance_tracker/core/widgets/app-snack-bar.dart';
 import 'package:finance_tracker/features/transactions/enums/transaction_type.dart';
 import 'package:finance_tracker/features/transactions/models/transaction_model.dart';
-import 'package:finance_tracker/features/transactions/providers/transaction_notifier.dart';
 import 'package:finance_tracker/features/transactions/repositories/transaction_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -21,7 +20,7 @@ class _TransactionDetail extends ConsumerState<TransactionDetail> {
   late TextEditingController _titleController;
   late TextEditingController _amountController;
   late TransactionType _selectedType;
-  late TransactionNotifier _notifier;
+  // late TransactionNotifier _notifier;
   final _formKey = GlobalKey<FormState>();
 
   @override

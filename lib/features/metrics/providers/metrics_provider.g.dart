@@ -23,5 +23,22 @@ final metricsProvider =
 );
 
 typedef MetricsRef = AutoDisposeFutureProviderRef<List<MetricsViewmodel>>;
+String _$getMetricsHash() => r'7b19de0d7c47c1b80bf8a51c1019c9f36cdd03c7';
+
+///Retrieve expenses and incomes for every month in the past year
+///
+/// Copied from [getMetrics].
+@ProviderFor(getMetrics)
+final getMetricsProvider =
+    AutoDisposeFutureProvider<List<MetricsViewmodel>>.internal(
+  getMetrics,
+  name: r'getMetricsProvider',
+  debugGetCreateSourceHash:
+      const bool.fromEnvironment('dart.vm.product') ? null : _$getMetricsHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef GetMetricsRef = AutoDisposeFutureProviderRef<List<MetricsViewmodel>>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

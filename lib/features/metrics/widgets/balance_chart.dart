@@ -4,6 +4,8 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../shared/extensions/date_extensions.dart';
+
 ///todo: remove all these colorSchemes and do it globally
 class BalanceChart extends ConsumerWidget {
   const BalanceChart({super.key});
@@ -133,10 +135,12 @@ class BalanceChart extends ConsumerWidget {
   }
 
   Widget _bottomTitle(double value, TitleMeta meta, ColorScheme colorScheme) {
+    final start = monthOffset(DateTime.now(), 11 - value.toInt());
+
     return SideTitleWidget(
       axisSide: meta.axisSide,
       child: Text(
-        months[value.toInt()],
+        months[start.month - 1],
         style: TextStyle(
           fontSize: 11,
           color: colorScheme.onSurfaceVariant,

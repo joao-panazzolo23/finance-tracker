@@ -37,9 +37,4 @@ class MyApp extends ConsumerWidget {
       home: const HomeScreen(),
     );
   }
-
-// @override
-// Widget build(BuildContext context) {
-//
-// }
 }

@@ -14,3 +14,8 @@ DateTime firstDayOfMonth(DateTime date) {
 DateTime lastDayOfMonth(DateTime date) {
   return DateTime(date.year, date.month + 1, 0);
 }
+
+DateTime monthOffset(DateTime from, int offsetMonths) {
+  final totalMonths = from.year * 12 + (from.month - 1) - offsetMonths;
+  return DateTime(totalMonths ~/ 12, totalMonths % 12 + 1, 1);
+}
