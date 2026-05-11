@@ -21,14 +21,46 @@ class FinanceHeader extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         _leftColumn(colorScheme, textTheme),
-
-
+        _container(colorScheme),
       ],
     );
+  }
 
-    // TODO: implement build
-    // TODO: implement build
-    throw UnimplementedError();
+  Container _container(ColorScheme colorScheme) {
+    return Container(
+      padding: EdgeInsets.symmetric(
+        horizontal: 10,
+        vertical: 10,
+      ),
+      decoration: BoxDecoration(
+        color: colorScheme.surfaceContainerHighest,
+        borderRadius: BorderRadius.circular(8),
+        border: Border.all(
+          color: colorScheme.outlineVariant,
+          width: 0.5,
+        ),
+      ),
+      child: _containerRow(colorScheme),
+    );
+  }
+
+  Row _containerRow(ColorScheme colorScheme) {
+    var spacing = const SizedBox(
+      width: 4,
+    );
+
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Icon(
+          Icons.calendar_today_outlined,
+          size: 14,
+          color: colorScheme.onSurfaceVariant,
+        ),
+        spacing,
+        Text("TAQUI")
+      ],
+    );
   }
 
   Column _leftColumn(ColorScheme colorScheme, TextTheme textTheme) {
@@ -43,7 +75,18 @@ class FinanceHeader extends StatelessWidget {
             style: textTheme.labelSmall?.copyWith(
               color: colorScheme.onSurfaceVariant,
             )),
-        spacing
+        spacing,
+        Text(
+          totalBalance,
+          style:
+              textTheme.headlineMedium?.copyWith(fontWeight: FontWeight.w500),
+        ),
+        spacing,
+        Text(
+          period,
+          style: textTheme.labelSmall
+              ?.copyWith(color: colorScheme.onSurfaceVariant),
+        )
       ],
     );
   }

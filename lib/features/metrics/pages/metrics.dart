@@ -3,6 +3,7 @@ import 'package:finance_tracker/features/metrics/widgets/balance_chart.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../widgets/finance_header.dart';
 import '../widgets/metric-card.dart';
 
 class Metrics extends ConsumerWidget {
@@ -24,10 +25,16 @@ class Metrics extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    var spacing = const SizedBox(
+      height: 4,
+    );
+
     //todo: fazer um provider q traga os valores de entrada e de saída
     // var value = ref.read(metricsProvider);
     var column = Column(
       children: [
+        FinanceHeader(totalBalance: "12300", period: "12"),
+        spacing,
         row(),
         SizedBox(height: 24),
         BalanceChart(),
