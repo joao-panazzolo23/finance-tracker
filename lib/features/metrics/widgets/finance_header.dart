@@ -58,7 +58,7 @@ class FinanceHeader extends StatelessWidget {
           color: colorScheme.onSurfaceVariant,
         ),
         spacing,
-        Text("TAQUI")
+        Text("maio 2025")
       ],
     );
   }

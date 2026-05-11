@@ -1,12 +1,10 @@
-import 'dart:async';
-
 import 'package:finance_tracker/features/metrics/providers/metrics_provider.dart';
 import 'package:finance_tracker/features/metrics/viewmodels/metrics_viewmodel.dart';
-import 'package:finance_tracker/features/transactions/providers/transaction_notifier.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+///todo: remove all these colorSchemes and do it globally
 class BalanceChart extends ConsumerWidget {
   const BalanceChart({super.key});
 
@@ -17,7 +15,7 @@ class BalanceChart extends ConsumerWidget {
     var metricsAsync = ref.watch(metricsProvider);
 
     return metricsAsync.when(
-      data: (data) => SingleChildScrollView(child: _column(data)),
+      data: (data) => SingleChildScrollView(child: _column(data, context)),
       error: (e, _) => Text("Deu merda aq paizao"),
       loading: () => const CircularProgressIndicator(),
     );
@@ -38,28 +36,30 @@ class BalanceChart extends ConsumerWidget {
     "Dez",
   ];
 
-  Column _column(List<MetricsViewmodel> data) {
+  Column _column(List<MetricsViewmodel> data, BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        _text(),
+        _text(context),
         const SizedBox(height: 4),
         _legend(),
         SizedBox(
           height: 230,
-          child: BarChart(_buildChart(data)),
+          child: BarChart(_buildChart(data, context)),
         ),
       ],
     );
   }
 
-  Text _text() {
-    return const Text(
+  Text _text(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+
+    return Text(
       "Saldo",
       style: TextStyle(
-        fontSize: 14,
-        fontWeight: FontWeight.w600,
-      ),
+          fontSize: 14,
+          fontWeight: FontWeight.w600,
+          color: colorScheme.onSurfaceVariant),
     );
   }
 
@@ -100,16 +100,21 @@ class BalanceChart extends ConsumerWidget {
         ));
   }
 
-  BarChartData _buildChart(List<MetricsViewmodel> data) {
+  BarChartData _buildChart(List<MetricsViewmodel> data, BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+
     return BarChartData(
-        gridData: gridData(),
-        borderData: FlBorderData(show: false),
-        titlesData: titleData(),
-        barGroups: _buildBarGroups(data),
-        barTouchData: _barTouchData());
+      gridData: gridData(colorScheme),
+      borderData: FlBorderData(show: false),
+      titlesData: titleData(colorScheme),
+      barGroups: _buildBarGroups(data),
+      barTouchData: _barTouchData(colorScheme),
+      // isso evita que uma barra gigante esmague as outras
+      maxY: _calcMaxY(data),
+    );
   }
 
-  FlTitlesData titleData() {
+  FlTitlesData titleData(ColorScheme colorScheme) {
     var sideTitles = SideTitles(showTitles: false);
     var axis = AxisTitles(sideTitles: sideTitles);
 
@@ -117,7 +122,7 @@ class BalanceChart extends ConsumerWidget {
         sideTitles: SideTitles(
       showTitles: true,
       reservedSize: 24,
-      getTitlesWidget: _bottomTitle,
+      getTitlesWidget: (value, meta) => _bottomTitle(value, meta, colorScheme),
     ));
 
     return FlTitlesData(
@@ -127,18 +132,22 @@ class BalanceChart extends ConsumerWidget {
         bottomTitles: bottomTitle);
   }
 
-  Widget _bottomTitle(double value, TitleMeta meta) {
+  Widget _bottomTitle(double value, TitleMeta meta, ColorScheme colorScheme) {
     return SideTitleWidget(
-        axisSide: meta.axisSide,
-        child: Text(
-          months[value.toInt()],
-          style: const TextStyle(fontSize: 11, color: Colors.black),
-        ));
+      axisSide: meta.axisSide,
+      child: Text(
+        months[value.toInt()],
+        style: TextStyle(
+          fontSize: 11,
+          color: colorScheme.onSurfaceVariant,
+        ),
+      ),
+    );
   }
 
-  FlGridData gridData() {
+  FlGridData gridData(ColorScheme colorScheme) {
     FlLine getDrawingHorizontalLine(value) => FlLine(
-          color: Colors.grey.withValues(alpha: 0.15),
+          color: colorScheme.outlineVariant.withValues(alpha: 0.4),
           strokeWidth: 1,
         );
     return FlGridData(
@@ -174,9 +183,11 @@ class BalanceChart extends ConsumerWidget {
     }).toList();
   }
 
-  BarTouchData? _barTouchData() {
+  BarTouchData? _barTouchData(ColorScheme colorScheme) {
     return BarTouchData(
-        touchTooltipData: BarTouchTooltipData(getTooltipItem: _toolTipData));
+        touchTooltipData: BarTouchTooltipData(
+      getTooltipItem: _toolTipData,
+    ));
   }
 
   BarTooltipItem _toolTipData(
@@ -185,15 +196,23 @@ class BalanceChart extends ConsumerWidget {
     BarChartRodData rod,
     int rodIndex,
   ) {
-    var type = "Entradas";
+    var type = "Saídas";
 
     if (rodIndex == 0) {
-      type = "Saídas";
+      type = "Entradas";
     }
 
     return BarTooltipItem(
       "$type\nR\$ ${rod.toY.toStringAsFixed(2)}",
       const TextStyle(color: Colors.white, fontSize: 12),
     );
+  }
+
+  double _calcMaxY(List<MetricsViewmodel> data) {
+    final max = data.fold(0.0, (prev, d) {
+      final bigger = d.income > d.expense ? d.income : d.expense;
+      return bigger > prev ? bigger : prev;
+    });
+    return max * 1.3;
   }
 }
