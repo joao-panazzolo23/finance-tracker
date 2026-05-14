@@ -53,7 +53,7 @@ class MetricCard extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        _titleContainer(),
+        _titleContainer(textTheme),
         const SizedBox(
           width: 4,
         ),
@@ -62,28 +62,23 @@ class MetricCard extends StatelessWidget {
     );
   }
 
-  Row _row() {
+  Row _titleContainer(TextTheme textTheme) {
     return Row(
       children: [
         Container(
-            width: 6,
-            height: 6,
-            decoration: BoxDecoration(
-              color: dotColor,
-              shape: BoxShape.circle,
-            )),
+          width: 6,
+          height: 6,
+          decoration: BoxDecoration(
+            color: dotColor,
+            shape: BoxShape.circle,
+          ),
+        ),
+        const SizedBox(width: 8),
+        Text(
+          label,
+          style: textTheme.bodyMedium,
+        ),
       ],
-    );
-  }
-
-  Container _titleContainer() {
-    return Container(
-      width: 6,
-      height: 6,
-      decoration: BoxDecoration(
-        color: dotColor,
-        shape: BoxShape.circle,
-      ),
     );
   }
 }
