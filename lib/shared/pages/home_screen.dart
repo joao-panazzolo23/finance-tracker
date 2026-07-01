@@ -1,9 +1,9 @@
 import 'package:finance_tracker/features/transactions/pages/transaction_page.dart';
 import 'package:flutter/material.dart';
 
-import '../../core/widgets/app-navigation-bar.dart';
 import '../../features/configurations/pages/configurations-page.dart';
 import '../../features/metrics/pages/metrics.dart';
+import '../../features/metrics/widgets/app-navbar.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -34,10 +34,19 @@ class _HomeScreen extends State<HomeScreen> {
           },
           children: _pages,
         ),
-        bottomNavigationBar: AppNavigationBar(
-          selectedIndex: _currentIndex,
-          onChange: _onTabChanged,
-        ));
+        bottomNavigationBar: _navigationBar()
+    );
+  }
+
+  Widget _navigationBar() {
+    return AppBottomNavBar(
+      selectedIndex: _currentIndex,
+      onTap: _onTabChanged, icons: [
+        Icons.account_balance_outlined,
+        Icons.bar_chart_rounded,
+        Icons.settings_outlined
+    ],
+    );
   }
 
   void _onTabChanged(int index) {
